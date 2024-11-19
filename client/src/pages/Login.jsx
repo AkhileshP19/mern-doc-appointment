@@ -1,13 +1,19 @@
-import {Label} from '../components/ui/label'
-import {Input} from '../components/ui/input'
+import {Label} from '../components/ui/label';
+import {Input} from '../components/ui/input';
 import { useState } from 'react';
-import {Link} from 'react-router-dom'
+import {Link, useNavigate} from 'react-router-dom';
+import axios from 'axios';
+import { useDispatch } from 'react-redux';
+import { hideLoading, showLoading } from '../redux/features/alertSlice';
 
 function LoginForm() {
   const [formData, setFormData] = useState({
     email: '',
     password: ''
   })
+
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   function onChangeHandler(e) {
     const {name, value} = e.target;
@@ -17,9 +23,30 @@ function LoginForm() {
     }))
   }
 
-  function onSubmitHandler(e) {
-    e.preventDefault()
-    console.log(formData); 
+  async function onSubmitHandler(e) {
+    e.preventDefault();
+    try {
+      dispatch(showLoading());
+      const res = await axios.post(
+        'https://8080-akhileshp19-merndocappo-ydgtrjbvv97.ws-us116.gitpod.io/api/v1/user/login',
+        formData,
+        { withCredentials: true }
+      );
+      dispatch(hideLoading());
+      if (res.data.success) {
+        localStorage.setItem('token', res.data.token)
+        alert('Login successful');
+        navigate('/');
+      } else {
+        dispatch(hideLoading());
+        alert(res.data.message);
+      }
+    } catch (error) {
+      dispatch(hideLoading());
+      console.log(error);
+      alert('Something went wrong');
+    }
+    
   }
 
   return (
