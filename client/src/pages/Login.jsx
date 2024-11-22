@@ -32,6 +32,7 @@ function LoginForm() {
         formData,
         { withCredentials: true }
       );
+      window.location.reload();
       dispatch(hideLoading());
       if (res.data.success) {
         localStorage.setItem('token', res.data.token)

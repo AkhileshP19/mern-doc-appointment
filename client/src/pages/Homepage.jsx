@@ -1,3 +1,4 @@
+import Layout from "../components/Layout";
 import axios from "axios";
 import { useEffect } from "react";
 
@@ -19,9 +20,9 @@ function HomePage() {
     }, [])
 
     return (
-        <div>
+        <Layout>
             homepage
-        </div>
+        </Layout>
     )
 }
 
