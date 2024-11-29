@@ -22,7 +22,7 @@ const ApplyDoctor = () => {
     address: "",
     specialization: "",
     experience: "",
-    feesPerConsultation: "", // Fix spelling here to match schema
+    feesPerConsultation: "",
     timings: { start: "", end: "" },
   });
   
@@ -53,7 +53,7 @@ const ApplyDoctor = () => {
       dispatch(showLoading());
       console.log(formData);
       const res = await axios.post(
-        'https://8080-akhileshp19-merndocappo-ydgtrjbvv97.ws-us116.gitpod.io/api/v1/user/apply-doctor',
+        'https://8080-akhileshp19-merndocappo-ydgtrjbvv97.ws-us117.gitpod.io/api/v1/user/apply-doctor',
         {formData, userId: user._id},
         {
           headers: {

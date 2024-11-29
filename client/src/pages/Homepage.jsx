@@ -1,15 +1,23 @@
+import DoctorList from "@/components/DoctorList";
 import Layout from "../components/Layout";
 import axios from "axios";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 
 function HomePage() {
+    const [doctors, setDoctors] = useState([]);
+
     async function getUserData() {
         try {
-            const res = await axios.post('https://8080-akhileshp19-merndocappo-ydgtrjbvv97.ws-us116.gitpod.io/api/v1/user/getUserData', {}, {
-                headers: {
-                    Authorization: "Bearer " + localStorage.getItem('token')
+            const res = await axios.get(
+                'https://8080-akhileshp19-merndocappo-ydgtrjbvv97.ws-us117.gitpod.io/api/v1/user/getAllDoctors', 
+                {
+                    headers: {
+                        Authorization: "Bearer " + localStorage.getItem('token')
                 }
             })
+            if (res.data.success) {
+                setDoctors(res.data.data);
+            }
         } catch (error) {
             console.log(error);
         }
@@ -21,7 +29,12 @@ function HomePage() {
 
     return (
         <Layout>
-            homepage
+            <h1 className="text-3xl font-semibold text-center mt-8">Home Page</h1>
+            <div className="flex flex-wrap justify-center mt-8">
+                {doctors && doctors.map((doctor) => (
+                    <DoctorList key={doctor._id} doctor={doctor} />
+                ))}
+            </div>
         </Layout>
     )
 }

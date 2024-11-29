@@ -13,7 +13,7 @@ function ProtectedRoute({ children }) {
     try {
       dispatch(showLoading());
       const res = await axios.post(
-        'https://8080-akhileshp19-merndocappo-ydgtrjbvv97.ws-us116.gitpod.io/api/v1/user/getUserData',
+        'https://8080-akhileshp19-merndocappo-ydgtrjbvv97.ws-us117.gitpod.io/api/v1/user/getUserData',
         {token: localStorage.getItem('token')},
         {headers: {
           Authorization: `Bearer ${localStorage.getItem('token')}`

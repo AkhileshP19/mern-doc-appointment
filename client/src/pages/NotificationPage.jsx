@@ -1,5 +1,6 @@
 import Layout from "@/components/Layout";
 import { hideLoading, showLoading } from "@/redux/features/alertSlice";
+import { setUser } from "@/redux/features/userSlice";
 import axios from "axios";
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
@@ -14,49 +15,67 @@ function NotificationPage() {
   // handle read notification
   async function handleMarkAllRead() {
     try {
-        dispatch(showLoading());
-        const res = await axios.post(
-            'https://8080-akhileshp19-merndocappo-ydgtrjbvv97.ws-us116.gitpod.io/api/v1/user/get-all-notification', 
-            {userId: user._id},
-            {headers: {
-                Authorization: `Bearer ${localStorage.getItem('token')}`
-            }}
-        );
-        dispatch(hideLoading());
-        if (res.data.success) {
-            alert(res.data.message);
-        } else {
-            alert(res.data.message);
+      dispatch(showLoading());
+      const res = await axios.post(
+        "https://8080-akhileshp19-merndocappo-ydgtrjbvv97.ws-us117.gitpod.io/api/v1/user/get-all-notification",
+        { userId: user._id },
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
         }
+      );
+      dispatch(hideLoading());
+      if (res.data.success) {
+        // Move unread notifications to seenNotification
+        const updatedUser = {
+          ...user,
+          seenNotification: [...user.seenNotification, ...user.notification],
+          notification: [],
+        };
+        dispatch(setUser(updatedUser)); // Update Redux state
+        alert(res.data.message);
+      } else {
+        alert(res.data.message);
+      }
     } catch (error) {
-        dispatch(hideLoading());
-        console.log(error);
-        alert('Something went wrong');
+      dispatch(hideLoading());
+      console.log(error);
+      alert("Something went wrong");
     }
   }
 
   async function handleDeleteAllRead() {
     try {
-        dispatch(showLoading());
-        const res = await axios.post(
-            'https://8080-akhileshp19-merndocappo-ydgtrjbvv97.ws-us116.gitpod.io/api/v1/user/delete-all-notification', 
-            {userId: user._id},
-            {headers: {
-                Authorization: `Bearer ${localStorage.getItem('token')}`
-            }}
-        );
-        dispatch(hideLoading());
-        if (res.data.success) {
-            alert(res.data.message);
-        } else {
-            alert(res.data.message);
+      dispatch(showLoading());
+      const res = await axios.post(
+        "https://8080-akhileshp19-merndocappo-ydgtrjbvv97.ws-us117.gitpod.io/api/v1/user/delete-all-notification",
+        { userId: user._id },
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
         }
+      );
+      dispatch(hideLoading());
+      if (res.data.success) {
+        // Clear seenNotification
+        const updatedUser = {
+          ...user,
+          seenNotification: [],
+        };
+        dispatch(setUser(updatedUser)); // Update Redux state
+        alert(res.data.message);
+      } else {
+        alert(res.data.message);
+      }
     } catch (error) {
-        dispatch(hideLoading());
-        console.log(error);
-        alert('Something went wrong');
+      dispatch(hideLoading());
+      console.log(error);
+      alert("Something went wrong");
     }
   }
+  
 
   return (
     <Layout>

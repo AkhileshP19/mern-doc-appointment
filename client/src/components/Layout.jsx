@@ -14,7 +14,30 @@ function Layout({ children }) {
 		navigate("/login");
 	}
 
-	const SidebarMenu = user?.isAdmin ? AdminMenu : UserMenu;
+	// doctor menu:
+	const doctorMenu = [
+		{
+			name: 'Home',
+			path: '/',
+			icon: 'fa-solid fa-house'
+		},
+		{
+			name: 'Appointments',
+			path: '/doctor-appointments',
+			icon: 'fa-solid fa-list'
+		},
+		{
+			name: 'Profile',
+			path: `/doctor/profile/${user?._id}`,
+			icon: 'fa-solid fa-user'
+		},
+	]	
+
+	const SidebarMenu = user?.isAdmin 
+		? AdminMenu 
+		: user?.isDoctor 
+		? doctorMenu 
+		: UserMenu;
 
 	return (
 		<div className="h-screen flex bg-gray-100">
@@ -53,8 +76,8 @@ function Layout({ children }) {
 			{/* Main Content */}
 			<div className="flex-1 flex flex-col">
 				{/* Header */}
-				<div className="h-16 bg-white shadow-md flex items-center justify-between px-6">
-					<h2 className="text-lg font-semibold">Header</h2>
+				<div className="h-16 bg-white shadow-md flex items-center justify-end px-6">
+					{/* <h2 className="text-lg font-semibold">Header</h2> */}
 					<div className="flex items-center gap-4">
 						<Badge count={user?.notification.length} onClick={() => {navigate('/notification')}}>
 							<div className="w-6 h-6 bg-gray-300 rounded-full flex items-center justify-center text-gray-600 hover:text-blue-600 cursor-pointer">
@@ -65,7 +88,7 @@ function Layout({ children }) {
 							to="/profile"
 							className="text-gray-800 font-medium hover:text-blue-600 transition uppercase"
 						>
-							{user?.name}
+							{user?.isDoctor ? 'DR. ' : ''}{user?.name}
 						</Link>
 					</div>
 				</div>

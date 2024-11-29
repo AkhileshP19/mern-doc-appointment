@@ -23,7 +23,7 @@ app.use(morgan('dev'));
 // Allow dynamic Gitpod URLs
 const corsOptions = {
   origin: [
-    'https://5173-akhileshp19-merndocappo-ydgtrjbvv97.ws-us116.gitpod.io', // Frontend origin
+    'https://5173-akhileshp19-merndocappo-ydgtrjbvv97.ws-us117.gitpod.io', // Frontend origin
   ],
   credentials: true, // Allow cookies or credentials if needed
 };
@@ -32,7 +32,8 @@ app.use(cors(corsOptions));
 
 // routes
 app.use('/api/v1/user', require('./routes/userRoutes'));
-
+app.use('/api/v1/admin', require('./routes/adminRoutes'));
+app.use('/api/v1/doctor', require('./routes/doctorRoutes'));
 
 
 // listen on port

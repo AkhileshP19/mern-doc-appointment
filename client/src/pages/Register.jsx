@@ -29,7 +29,7 @@ function RegisterForm() {
     try {
       dispatch(showLoading());
       const res = await axios.post(
-        'https://8080-akhileshp19-merndocappo-ydgtrjbvv97.ws-us116.gitpod.io/api/v1/user/register',
+        'https://8080-akhileshp19-merndocappo-ydgtrjbvv97.ws-us117.gitpod.io/api/v1/user/register',
         formData,
         { withCredentials: true }
       );

@@ -2,6 +2,8 @@ const userModel = require('../models/userModels');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const doctorModel = require('../models/doctorModel');
+const appointmentModel = require('../models/appointmentModel');
+const moment = require('moment');
 
 // register callback
 const registerController = async(req, res) => {
@@ -64,10 +66,7 @@ const authController = async(req, res) => {
 
 const applyDoctorController = async(req, res) => {
     try {
-        // const newDoctor = new doctorModel({...req.body, status: 'pending'});
         const { formData, userId } = req.body;
-
-        // Ensure you pass the exact structure to the model
         const newDoctor = new doctorModel({
         ...formData,
         userId,
@@ -143,9 +142,125 @@ const deleteAllNotificationsController = async(req, res) => {
         console.log(error);
         res.status(500).send({
             success: false,
-            message: 'unable to delete all notifications',
+            message: 'Unable to delete all notifications',
             error
         })
+    }
+}
+
+const getAllDoctorsController = async(req, res) => {
+    try {
+        const doctors = await doctorModel.find({status: 'approved'});
+        res.status(200).send({
+            success: true,
+            message: 'Doctors list fetched successfully',
+            data: doctors
+        })
+    } catch (error) {
+        console.log(error);
+        res.status(500).send({
+            success: false,
+            message: 'Error while fetching doctors',
+            error
+        })
+    }
+}
+
+const bookAppointmentController = async(req, res) => {
+    try {
+        const newAppointment = new appointmentModel({
+        ...req.body,
+        status: 'pending',
+        });
+        await newAppointment.save();
+        const user = await userModel.findOne({_id: req.body.doctorInfo.userId});
+        user.notification.push({
+            type: 'New-appointment-request',
+            message: `A new appointment request from ${req.body.userInfo.name}`,
+            onClickPath: '/doctor-appointments'
+        })
+        await user.save();
+        res.status(200).send({
+            success: true,
+            message: 'Appointment booked successfully'
+        })
+    } catch (error) {
+        console.log(error);
+        res.status(500).send({
+            success: false,
+            message: 'Error while booking appointment',
+            error
+        })
+    }
+}
+
+const bookingAvailabilityController = async (req, res) => {
+    try {
+      const { date, time, doctorId } = req.body;
+  
+      // Fetch doctor's working timings
+      const doctor = await doctorModel.findById(doctorId);
+      if (!doctor) {
+        return res.status(404).send({
+          success: false,
+          message: "Doctor not found",
+        });
+      }
+  
+      const { start, end } = doctor.timings;
+  
+      // Check if the requested time is within the doctor's working hours
+      if (time < start || time > end) {
+        return res.status(200).send({
+          success: true, // Query executed successfully
+          message: "The selected time is outside the doctor's working hours",
+        });
+      }
+  
+      // Check if the requested time slot is already booked
+      const existingAppointment = await appointmentModel.findOne({
+        doctorId,
+        date, // Match date
+        time, // Match time
+      });
+  
+      if (existingAppointment) {
+        return res.status(200).send({
+          success: true,
+          message: "The selected time slot is already booked",
+        });
+      }
+  
+      return res.status(200).send({
+        success: true,
+        message: "The selected time slot is available",
+      });
+    } catch (error) {
+      console.error(error);
+      res.status(500).send({
+        success: false,
+        message: "Error checking booking availability",
+        error,
+      });
+    }
+  };
+  
+
+const userAppointmentsController = async(req, res) => {
+    try {
+        const appointments = await appointmentModel.find({userId: req.body.userId});
+        res.status(200).send({
+            success: true,
+            message: 'User appointments fetched successfully',
+            data: appointments
+        })
+    } catch (error) {
+        console.log(error);
+        res.status(500).send({
+            success: false,
+            message: 'Error in fetching user appointments',
+            error
+        })   
     }
 }
 
@@ -155,5 +270,9 @@ module.exports = {
     authController,
     applyDoctorController,
     getAllNotificationsController,
-    deleteAllNotificationsController
+    deleteAllNotificationsController,
+    getAllDoctorsController,
+    bookAppointmentController,
+    bookingAvailabilityController,
+    userAppointmentsController
 }
