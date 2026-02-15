@@ -8,16 +8,16 @@ import { useNavigate } from "react-router-dom";
 
 function NotificationPage() {
   const [activeTab, setActiveTab] = useState(0); // 0 for unread, 1 for read
-  const {user} = useSelector((state) => state.user);
+  const { user } = useSelector((state) => state.user);
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  
+
   // handle read notification
   async function handleMarkAllRead() {
     try {
       dispatch(showLoading());
       const res = await axios.post(
-        "https://8080-akhileshp19-merndocappo-ydgtrjbvv97.ws-us117.gitpod.io/api/v1/user/get-all-notification",
+        "/api/v1/user/get-all-notification",
         { userId: user._id },
         {
           headers: {
@@ -49,7 +49,7 @@ function NotificationPage() {
     try {
       dispatch(showLoading());
       const res = await axios.post(
-        "https://8080-akhileshp19-merndocappo-ydgtrjbvv97.ws-us117.gitpod.io/api/v1/user/delete-all-notification",
+        "/api/v1/user/delete-all-notification",
         { userId: user._id },
         {
           headers: {
@@ -75,7 +75,7 @@ function NotificationPage() {
       alert("Something went wrong");
     }
   }
-  
+
 
   return (
     <Layout>
@@ -84,17 +84,15 @@ function NotificationPage() {
       {/* Tabs Header */}
       <div className="flex border-b border-gray-300">
         <button
-          className={`px-4 py-2 text-sm font-medium ${
-            activeTab === 0 ? "text-blue-600 border-b-2 border-blue-600" : "text-gray-500"
-          }`}
+          className={`px-4 py-2 text-sm font-medium ${activeTab === 0 ? "text-blue-600 border-b-2 border-blue-600" : "text-gray-500"
+            }`}
           onClick={() => setActiveTab(0)}
         >
           Unread
         </button>
         <button
-          className={`px-4 py-2 text-sm font-medium ${
-            activeTab === 1 ? "text-blue-600 border-b-2 border-blue-600" : "text-gray-500"
-          }`}
+          className={`px-4 py-2 text-sm font-medium ${activeTab === 1 ? "text-blue-600 border-b-2 border-blue-600" : "text-gray-500"
+            }`}
           onClick={() => setActiveTab(1)}
         >
           Read
@@ -140,23 +138,23 @@ function NotificationPage() {
               </h4>
             </div>
             {user?.seenNotification?.length > 0 ? (
-                user.seenNotification.map((notificationMgs) => (
-                    <div
-                    key={notificationMgs._id}
-                    className="border border-gray-300 rounded-lg shadow-md p-4 my-2 cursor-pointer hover:bg-gray-100"
-                    onClick={() => navigate(notificationMgs.onClickPath)}
-                    >
-                    <p className="text-gray-700">{notificationMgs.message}</p>
-                    </div>
-                ))
-                ) : (
-                <p className="text-center text-gray-500 mt-4">No notifications to read</p>
-                )}
+              user.seenNotification.map((notificationMgs) => (
+                <div
+                  key={notificationMgs._id}
+                  className="border border-gray-300 rounded-lg shadow-md p-4 my-2 cursor-pointer hover:bg-gray-100"
+                  onClick={() => navigate(notificationMgs.onClickPath)}
+                >
+                  <p className="text-gray-700">{notificationMgs.message}</p>
+                </div>
+              ))
+            ) : (
+              <p className="text-center text-gray-500 mt-4">No notifications to read</p>
+            )}
 
           </div>
         )}
 
-        
+
       </div>
     </Layout>
   );

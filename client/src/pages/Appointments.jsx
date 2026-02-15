@@ -9,7 +9,7 @@ const Appointments = () => {
   const getAppointments = async () => {
     try {
       const res = await axios.get(
-        "https://8080-akhileshp19-merndocappo-ydgtrjbvv97.ws-us117.gitpod.io/api/v1/user/user-appointments",
+        "/api/v1/user/user-appointments",
         {
           headers: {
             Authorization: `Bearer ${localStorage.getItem("token")}`,

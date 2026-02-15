@@ -1,7 +1,7 @@
-import {Label} from '../components/ui/label';
-import {Input} from '../components/ui/input';
+import { Label } from '../components/ui/label';
+import { Input } from '../components/ui/input';
 import { useState } from 'react';
-import {Link, useNavigate} from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { useDispatch } from 'react-redux';
 import { hideLoading, showLoading } from '../redux/features/alertSlice';
@@ -16,7 +16,7 @@ function LoginForm() {
   const dispatch = useDispatch();
 
   function onChangeHandler(e) {
-    const {name, value} = e.target;
+    const { name, value } = e.target;
     setFormData((prevData) => ({
       ...prevData,
       [name]: value
@@ -28,7 +28,7 @@ function LoginForm() {
     try {
       dispatch(showLoading());
       const res = await axios.post(
-        'https://8080-akhileshp19-merndocappo-ydgtrjbvv97.ws-us117.gitpod.io/api/v1/user/login',
+        '/api/v1/user/login',
         formData,
         { withCredentials: true }
       );
@@ -47,7 +47,7 @@ function LoginForm() {
       console.log(error);
       alert('Something went wrong');
     }
-    
+
   }
 
   return (
@@ -56,22 +56,22 @@ function LoginForm() {
         <h1 className="text-2xl font-semibold mb-4 text-center">Sign In</h1>
         <div>
           <Label htmlFor="email">Email</Label>
-          <Input 
-            id="email" 
-            name="email" 
-            type="email" 
-            placeholder="Enter your email" 
+          <Input
+            id="email"
+            name="email"
+            type="email"
+            placeholder="Enter your email"
             value={formData.email}
             onChange={onChangeHandler}
             className="mt-2" />
         </div>
         <div>
           <Label htmlFor="password">Password</Label>
-          <Input 
-            id="password" 
-            name="password" 
-            type="password" 
-            placeholder="Enter your password" 
+          <Input
+            id="password"
+            name="password"
+            type="password"
+            placeholder="Enter your password"
             value={formData.password}
             onChange={onChangeHandler}
             className="mt-2" />
@@ -89,5 +89,5 @@ function LoginForm() {
     </div>
   );
 }
-  
+
 export default LoginForm;

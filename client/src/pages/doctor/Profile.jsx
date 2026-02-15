@@ -28,7 +28,7 @@ const Profile = () => {
   const getDoctorInfo = async () => {
     try {
       const res = await axios.post(
-        "https://8080-akhileshp19-merndocappo-ydgtrjbvv97.ws-us117.gitpod.io/api/v1/doctor/getDoctorInfo",
+        "/api/v1/doctor/getDoctorInfo",
         { userId: params.id },
         {
           headers: {
@@ -84,7 +84,7 @@ const Profile = () => {
 
     try {
       const res = await axios.post(
-        "https://8080-akhileshp19-merndocappo-ydgtrjbvv97.ws-us117.gitpod.io/api/v1/doctor/updateProfile",
+        "/api/v1/doctor/updateProfile",
         { ...formData, userId: user._id },
         {
           headers: {

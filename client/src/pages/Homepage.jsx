@@ -9,12 +9,12 @@ function HomePage() {
     async function getUserData() {
         try {
             const res = await axios.get(
-                'https://8080-akhileshp19-merndocappo-ydgtrjbvv97.ws-us117.gitpod.io/api/v1/user/getAllDoctors', 
+                '/api/v1/user/getAllDoctors',
                 {
                     headers: {
                         Authorization: "Bearer " + localStorage.getItem('token')
-                }
-            })
+                    }
+                })
             if (res.data.success) {
                 setDoctors(res.data.data);
             }

@@ -11,7 +11,7 @@ import axios from "axios";
 const ApplyDoctor = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const {user} = useSelector(state => state.user);
+  const { user } = useSelector(state => state.user);
 
   const [formData, setFormData] = useState({
     firstName: "",
@@ -25,7 +25,7 @@ const ApplyDoctor = () => {
     feesPerConsultation: "",
     timings: { start: "", end: "" },
   });
-  
+
 
   const onChangeHandler = (e) => {
     const { name, value } = e.target;
@@ -39,7 +39,7 @@ const ApplyDoctor = () => {
     }));
   };
 
-  const onSubmitHandler = async(e) => {
+  const onSubmitHandler = async (e) => {
     e.preventDefault();
 
     const { timings } = formData;
@@ -53,14 +53,14 @@ const ApplyDoctor = () => {
       dispatch(showLoading());
       console.log(formData);
       const res = await axios.post(
-        'https://8080-akhileshp19-merndocappo-ydgtrjbvv97.ws-us117.gitpod.io/api/v1/user/apply-doctor',
-        {formData, userId: user._id},
+        '/api/v1/user/apply-doctor',
+        { formData, userId: user._id },
         {
           headers: {
             Authorization: `Bearer ${localStorage.getItem('token')}`
           }
         },
-        {withCredentials: true}
+        { withCredentials: true }
       );
       dispatch(hideLoading());
       if (res.data.success) {

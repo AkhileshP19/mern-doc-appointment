@@ -24,6 +24,7 @@ app.use(morgan('dev'));
 const corsOptions = {
   origin: [
     'https://5173-akhileshp19-merndocappo-ydgtrjbvv97.ws-us117.gitpod.io', // Frontend origin
+    'http://localhost:5173', // Localhost frontend
   ],
   credentials: true, // Allow cookies or credentials if needed
 };
@@ -39,6 +40,6 @@ app.use('/api/v1/doctor', require('./routes/doctorRoutes'));
 // listen on port
 const port = process.env.port || 8080;
 app.listen(port, () => {
-    console.log(`server running in ${process.env.NODE_MODE} mode on port ${port}`.bgCyan.white);
+  console.log(`server running in ${process.env.NODE_MODE} mode on port ${port}`.bgCyan.white);
 })
 

@@ -1,7 +1,7 @@
-import {Label} from '../components/ui/label'
-import {Input} from '../components/ui/input'
+import { Label } from '../components/ui/label'
+import { Input } from '../components/ui/input'
 import { useState } from 'react';
-import {Link, useNavigate} from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import axios from 'axios';
 import { useDispatch } from 'react-redux';
 import { hideLoading, showLoading } from '../redux/features/alertSlice';
@@ -29,7 +29,7 @@ function RegisterForm() {
     try {
       dispatch(showLoading());
       const res = await axios.post(
-        'https://8080-akhileshp19-merndocappo-ydgtrjbvv97.ws-us117.gitpod.io/api/v1/user/register',
+        '/api/v1/user/register',
         formData,
         { withCredentials: true }
       );

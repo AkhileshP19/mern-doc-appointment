@@ -29,7 +29,7 @@ const BookingPage = () => {
   const getUserData = async () => {
     try {
       const res = await axios.post(
-        "https://8080-akhileshp19-merndocappo-ydgtrjbvv97.ws-us117.gitpod.io/api/v1/doctor/getDoctorById",
+        "/api/v1/doctor/getDoctorById",
         { doctorId: params.doctorId },
         {
           headers: {
@@ -44,42 +44,42 @@ const BookingPage = () => {
       console.log(error);
     }
   };
-//     try {
-//         dispatch(showLoading());
+  //     try {
+  //         dispatch(showLoading());
 
-//         if (!date || !time) {
-//             return alert("Date & time are required");
-//         }
+  //         if (!date || !time) {
+  //             return alert("Date & time are required");
+  //         }
 
-//         const res = await axios.post(
-//             "https://8080-akhileshp19-merndocappo-ydgtrjbvv97.ws-us117.gitpod.io/api/v1/user/booking-availability",
-//             {
-//                 userId: user._id,
-//                 doctorId: params.doctorId,
-//                 date, // Send as "YYYY-MM-DD"
-//                 time, // Send as "HH:mm"
-//             },
-//             {
-//                 headers: {
-//                     Authorization: `Bearer ${localStorage.getItem("token")}`,
-//                 },
-//             }
-//         );
+  //         const res = await axios.post(
+  //             "/api/v1/user/booking-availability",
+  //             {
+  //                 userId: user._id,
+  //                 doctorId: params.doctorId,
+  //                 date, // Send as "YYYY-MM-DD"
+  //                 time, // Send as "HH:mm"
+  //             },
+  //             {
+  //                 headers: {
+  //                     Authorization: `Bearer ${localStorage.getItem("token")}`,
+  //                 },
+  //             }
+  //         );
 
-//         dispatch(hideLoading());
-//         if (res.data.success) {
-//             setIsAvailable(true); // Set availability
-//             console.log(isAvailable);
-//             alert(res.data.message);
-//         } else {
-//             setIsAvailable(false); // Ensure button remains disabled if not available
-//             alert(res.data.message);
-//         }
-//     } catch (error) {
-//         dispatch(hideLoading());
-//         console.log(error);
-//     }
-// };
+  //         dispatch(hideLoading());
+  //         if (res.data.success) {
+  //             setIsAvailable(true); // Set availability
+  //             console.log(isAvailable);
+  //             alert(res.data.message);
+  //         } else {
+  //             setIsAvailable(false); // Ensure button remains disabled if not available
+  //             alert(res.data.message);
+  //         }
+  //     } catch (error) {
+  //         dispatch(hideLoading());
+  //         console.log(error);
+  //     }
+  // };
 
   const handleAvailability = async (e) => {
     e.preventDefault(); // Prevent page reload
@@ -93,7 +93,7 @@ const BookingPage = () => {
       }
 
       const res = await axios.post(
-        "https://8080-akhileshp19-merndocappo-ydgtrjbvv97.ws-us117.gitpod.io/api/v1/user/booking-availability",
+        "/api/v1/user/booking-availability",
         {
           userId: user._id,
           doctorId: params.doctorId,
@@ -109,7 +109,7 @@ const BookingPage = () => {
 
       // dispatch(hideLoading());
       console.log(date, time);
-      
+
       if (res.data.success) {
         setIsAvailable(res.data.message.includes("available"));
         alert(res.data.message);
@@ -121,18 +121,18 @@ const BookingPage = () => {
       // dispatch(hideLoading());
       console.error(error);
     }
-  };  
+  };
 
   const handleBooking = async () => {
     try {
       if (!date || !time) {
         return alert('Date & time are required');
       }
-  
+
       dispatch(showLoading());
-  
+
       const res = await axios.post(
-        "https://8080-akhileshp19-merndocappo-ydgtrjbvv97.ws-us117.gitpod.io/api/v1/user/book-appointment",
+        "/api/v1/user/book-appointment",
         {
           doctorId: params.doctorId,
           userId: user._id,
@@ -156,7 +156,7 @@ const BookingPage = () => {
       console.log(error);
     }
   };
-  
+
   useEffect(() => {
     getUserData();
   }, []);
@@ -203,17 +203,17 @@ const BookingPage = () => {
                 onChange={(value) => setTime(value)}
                 className="p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500"
                 format="hh:mm a" // 12-hour format with AM/PM
-                // disableClock={true} // Optional: Disable clock UI
-                // minTime={
-                //   doctors.timings
-                //     ? convertTo12HourFormat(doctors.timings.start) // Convert to 12-hour
-                //     : "12:00 AM"
-                // }
-                // maxTime={
-                //   doctors.timings
-                //     ? convertTo12HourFormat(doctors.timings.end) // Convert to 12-hour
-                //     : "11:59 PM"
-                // }
+              // disableClock={true} // Optional: Disable clock UI
+              // minTime={
+              //   doctors.timings
+              //     ? convertTo12HourFormat(doctors.timings.start) // Convert to 12-hour
+              //     : "12:00 AM"
+              // }
+              // maxTime={
+              //   doctors.timings
+              //     ? convertTo12HourFormat(doctors.timings.end) // Convert to 12-hour
+              //     : "11:59 PM"
+              // }
               />
 
               <div className="flex flex-col">

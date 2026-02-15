@@ -9,14 +9,14 @@ const Users = () => {
     const getUsers = async () => {
         try {
             const res = await axios.get(
-                'https://8080-akhileshp19-merndocappo-ydgtrjbvv97.ws-us117.gitpod.io/api/v1/admin/getAllUsers',
+                '/api/v1/admin/getAllUsers',
                 {
-                  headers: {
-                    Authorization: `Bearer ${localStorage.getItem('token')}`
-                  }
+                    headers: {
+                        Authorization: `Bearer ${localStorage.getItem('token')}`
+                    }
                 },
-                {withCredentials: true}
-              );
+                { withCredentials: true }
+            );
             if (res.data.success) {
                 setUsers(res.data.data);
             }
